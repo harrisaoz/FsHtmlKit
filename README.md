@@ -22,13 +22,13 @@ open FsHtmlKit.Html2PlainText
 
 let inputHtml = System.IO.File.ReadAllText "input.html"
 
-let ``Do something if extraction fails`` = ...
+let ``Do something if extraction fails`` () = ...
 let ``Do something with the plain text`` plainText = ...
 let ``Do something with text that doesn't care whether the result is html or plain text`` text = ...
 
 tryExtractPlainText inputHtml |> function
-    | None -> ``Do something if extraction fails``
-    | Some plainText -> ``Do something with the plain text``
+    | None -> ``Do something if extraction fails`` ()
+    | Some plainText -> ``Do something with the plain text`` plainText
 
 html2Text inputHtml
 |> ``Do something with text that doesn't care whether the result is html or plain text``
