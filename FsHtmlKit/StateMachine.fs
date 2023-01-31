@@ -1,14 +1,13 @@
 ﻿module FsHtmlKit.StateMachine
 
-open FSharp.Data
-open FSharp.Data.HtmlActivePatterns
+open FsHtmlKit.NodeTypes
 
 module StringExt = FsCombinators.StringExtensions
 
 open BufferManipulation
 open HtmlRules.Space
-open HtmlRules.Breaking
-open HtmlRules.Headings
+
+module N = NodeTypes
 
 type CollapseState =
     | Init
@@ -19,20 +18,29 @@ type MachineState = string * CollapseState
 type LineBreakAction = MachineState -> MachineState
 type CollapseAction = string -> MachineState -> MachineState
 
-let visitNode lba ca transform inputState (node: HtmlNode) : MachineState =
-    match node with
-    | HtmlElement (name, _, _) when (isHeading name || isBreakingElement name) -> lba
-    | HtmlText textValue when textValue.Equals(newline) -> lba
-    | _ -> ca (transform node)
+///
+/// <param name="asVisitedNode">Transform the implementation-specific node to a
+/// matchable expression of type NodeTypes.VisitedNode</param>
+/// <param name="lba">line-break action</param>
+/// <param name="ca">collapse action</param>
+/// <param name="transform">transform the node according to the desired output
+/// format</param>
+/// <param name="inputState">The state of the fsm when visitNode is called
+/// </param>
+/// <param name="node">The node to visit</param>
+///
+let visitNode lba ca asVisitedNode transform inputState node : MachineState =
+    match (asVisitedNode node) with
+    | BreakingElement -> lba
+    | HeadingElement -> lba
+    | NewLineTextNode -> lba
+    | OtherNode -> ca (transform node)
     <| inputState
 
 let carriageReturn: LineBreakAction =
     fun (buffer: string, _) ->
         match String.length buffer with
-        | n when
-            n > 0
-            && (not (buffer |> StringExt.endsWith newline))
-            ->
+        | n when n > 0 && (not (buffer |> StringExt.endsWith newline)) ->
             (appendNewline buffer, Init)
         | _ -> (buffer, Init)
 
@@ -53,11 +61,27 @@ let collapse: CollapseAction =
 
         match String.length text with
         | 0 -> (buffer, state)
-        | _ ->
-            text
-            |> Seq.fold transitionOnCharacter (buffer, state)
+        | _ -> text |> Seq.fold transitionOnCharacter (buffer, state)
 
 let initialState: MachineState = ("", Init)
 
-let runMachine: (HtmlNode -> string) -> HtmlNode seq -> MachineState =
-    fun transform -> Seq.fold (visitNode carriageReturn collapse transform) initialState
+let runMachine: LineBreakAction
+    -> CollapseAction
+    -> ('Node -> N.VisitedNode)
+    -> ('Node -> string)
+    -> 'Node seq
+    -> MachineState =
+    fun lba ca asVisitedNode transform ->
+        Seq.fold (visitNode lba ca asVisitedNode transform) initialState
+
+module Std =
+    let inline runMachine asVisitedNode =
+        runMachine carriageReturn collapse asVisitedNode
+
+module Fsd =
+    let inline runMachine transform =
+        Std.runMachine FsdAdapter.asVisitedNode transform
+
+module Hap =
+    let inline runMachine transform =
+        Std.runMachine HapAdapter.asVisitedNode transform

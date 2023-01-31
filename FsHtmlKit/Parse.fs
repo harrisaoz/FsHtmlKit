@@ -1,11 +1,8 @@
 ﻿module FsHtmlKit.Parse
 
-let tryParse (documentText: string) =
+let tryParse parse (documentText: string) =
     try
-        FSharp.Data.HtmlDocument.Parse(documentText)
-        |> Some
+        Some <| parse documentText
     with
-        | :? System.OutOfMemoryException ->
-            reraise()
-        | _ ->
-            None
+    | :? System.OutOfMemoryException -> reraise ()
+    | _ -> None

@@ -7,7 +7,7 @@
 
     <ItemGroup>
         <Compile Include="HtmlTextGen.fs" />
-        <Compile Include="AsPlainTextSpec.fs" />
+        <Compile Include="FsdAsPlainTextSpec.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

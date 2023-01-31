@@ -20,7 +20,7 @@ let create (s: string) =
 
     match s with
     | null -> None
-    | nonNull when isOk nonNull -> nonNull.Trim() |> HtmlText |> Some
+    | nonNull when isOk nonNull -> Some <| HtmlText(nonNull.Trim())
     | _ -> None
 
 let apply f (HtmlText t) = f t
