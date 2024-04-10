@@ -34,34 +34,6 @@ let tryExtractPlainText
         | "" -> None
         | text -> Some text
 
-/// Use tryExtractPlainText (see documentation for details) to extract plain
-/// text from the input HTML document.
-/// On success, the extracted plain text is returned.
-/// On failure, the original text is returned.
-let html2Text
-    elements
-    parse
-    getChildren
-    asNodeType
-    asVisitedNode
-    attrName
-    attrValue
-    (docText: string)
-    =
-
-    docText
-    |> tryExtractPlainText
-        elements
-        parse
-        getChildren
-        asNodeType
-        asVisitedNode
-        attrName
-        attrValue
-    |> function
-        | None -> docText
-        | Some buffer -> buffer
-
 module UsingAdapter =
     open LibAdapter
 
@@ -75,24 +47,13 @@ module UsingAdapter =
             (attributeName adapter)
             (attributeValue adapter)
 
-    let html2Text (adapter: HtmlLibAdapter<'D, 'N, 'A>) docText =
-        tryExtractPlainText adapter docText |> Option.defaultValue docText
-
 module Fsd =
     let tryExtractPlainText (docText: string) =
         UsingAdapter.tryExtractPlainText FsdAdapter.fsdLibAdapter docText
-
-    let html2Text (docText: string) =
-        UsingAdapter.html2Text FsdAdapter.fsdLibAdapter docText
 
 module Hap =
     let tryExtractPlainText (docText: string) =
         UsingAdapter.tryExtractPlainText HapAdapter.hapLibAdapter docText
 
-    let html2Text (docText: string) =
-        UsingAdapter.html2Text HapAdapter.hapLibAdapter docText
-
 module Std =
     let tryExtractPlainText (docText: string) = Hap.tryExtractPlainText docText
-
-    let html2Text (docText: string) = Hap.html2Text docText
