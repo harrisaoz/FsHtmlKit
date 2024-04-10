@@ -17,12 +17,18 @@ let asNodeType (node: HtmlNode) =
 
     let isHeadElement (node: HtmlNode) = node.Name = "head"
 
+    let isTitleElement (node: HtmlNode) = node.Name = "title"
+
+    let isIgnorableChildOfHead (node: HtmlNode) =
+        node.ParentNode.Name = "head" && (not << isTitleElement) node
+
     match node with
+    | _ when isIgnorableChildOfHead node -> N.IgnorableChildOfHead
+    | _ when isTitleElement node -> N.TitleElement
     | :? HtmlTextNode as textNode -> N.Text textNode.Text
     | :? HtmlCommentNode as commentNode -> N.Comment commentNode.Comment
     | _ when isCData node -> N.CData node.InnerText
     | _ when isScriptElement node -> N.ScriptElement
-    | _ when isHeadElement node -> N.HeadElement
     | _ -> N.Element(node.Name, N.HtmlAttributes(node.Attributes))
 
 let asVisitedNode (node: HtmlNode) =

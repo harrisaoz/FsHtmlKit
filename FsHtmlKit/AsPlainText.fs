@@ -13,7 +13,9 @@ let elementsAndTextOnly (asNodeType: 'n -> N.HtmlNode<'a>) (node: 'n) =
     | Comment _ -> false
     | CData _ -> false
     | ScriptElement -> false
-    | HeadElement -> false
+    | HeadElement -> true
+    | IgnorableChildOfHead -> false
+    | TitleElement -> true
     | Text _ -> true
     | Element _ -> true
 
@@ -22,6 +24,7 @@ let asPlainText asNodeType attrName attrValue node =
     match nodeType with
     | Text text -> text
     | Comment text -> text
+    | TitleElement -> "Title: "
     | CData text -> text
     | Element (_, HtmlAttributes attributes) ->
         attributes

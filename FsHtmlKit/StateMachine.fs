@@ -76,8 +76,8 @@ let runMachine: LineBreakAction
         Seq.fold (visitNode lba ca asVisitedNode transform) initialState
 
 module Std =
-    let inline runMachine asVisitedNode =
-        runMachine carriageReturn collapse asVisitedNode
+    let inline runMachine asVisitedNode transform =
+        runMachine carriageReturn collapse asVisitedNode transform
 
 module Fsd =
     let inline runMachine transform =

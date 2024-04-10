@@ -49,7 +49,6 @@ module Breaking =
         "pre"
         "td"
         "th"
-        "title"
         "ul"
     |]
 

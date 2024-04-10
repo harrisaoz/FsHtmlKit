@@ -8,6 +8,8 @@ type HtmlNode<'a> =
     | Text of text: string
     | ScriptElement
     | HeadElement
+    | TitleElement
+    | IgnorableChildOfHead
     | Element of name: string * attributes: HtmlAttributes<'a>
 
 type VisitedNode =
