@@ -40,7 +40,7 @@ let visitNode lba ca asVisitedNode transform inputState node : MachineState =
 let carriageReturn: LineBreakAction =
     fun (buffer: string, _) ->
         match String.length buffer with
-        | n when n > 0 && (not (buffer |> StringExt.endsWith newline)) ->
+        | n when n > 0 && (buffer |> (not << StringExt.endsWith newline)) ->
             (appendNewline buffer, Init)
         | _ -> (buffer, Init)
 
