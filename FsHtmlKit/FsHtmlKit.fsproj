@@ -9,9 +9,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FSharp.Data" Version="5.0.2"/>
         <PackageReference Include="FsCombinators" Version="0.8.1"/>
-        <PackageReference Include="HtmlAgilityPack" Version="1.11.46"/>
+        <PackageReference Include="FSharp.Data" Version="6.4.0"/>
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.60"/>
     </ItemGroup>
 
     <ItemGroup>
