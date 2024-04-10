@@ -30,10 +30,8 @@ let asVisitedNode (node: HtmlNode) =
         node.NodeType = HtmlNodeType.Element && Br.isBreakingElement node.Name
 
     match node with
-    | :? HtmlTextNode as textNode when textNode.Text.Equals(Buf.newline) ->
-        N.NewLineTextNode
-    | _ when node.NodeType = HtmlNodeType.Element && H.isHeading node.Name ->
-        N.HeadingElement
+    | :? HtmlTextNode as textNode when textNode.Text.Equals(Buf.newline) -> N.NewLineTextNode
+    | _ when node.NodeType = HtmlNodeType.Element && H.isHeading node.Name -> N.HeadingElement
     | _ when isBreakingElement node -> N.BreakingElement
     | _ -> N.OtherNode
 
