@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <PackageId>FsHtmlKit</PackageId>
-        <Version>0.2.1</Version>
+        <Version>0.3.0</Version>
         <Authors>Anthony Harris</Authors>
         <RepositoryUrl>https://github.com/harrisaoz/FsHtmlKit</RepositoryUrl>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
