@@ -8,6 +8,7 @@
     <ItemGroup>
         <Compile Include="HtmlTextGen.fs"/>
         <Compile Include="FsdAsPlainTextSpec.fs"/>
+        <Compile Include="ExamplesSpec.fs"/>
         <Compile Include="Program.fs"/>
     </ItemGroup>
 
@@ -29,5 +30,10 @@
 
     <ItemGroup>
         <ProjectReference Include="..\FsHtmlKit\FsHtmlKit.fsproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="examples\01.html" CopyToOutputDirectory="Always"/>
+        <Content Include="examples\02.html" CopyToOutputDirectory="Always"/>
     </ItemGroup>
 </Project>
