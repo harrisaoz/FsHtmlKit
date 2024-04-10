@@ -30,7 +30,8 @@ type CollapseAction = string -> MachineState -> MachineState
 /// <param name="node">The node to visit</param>
 ///
 let visitNode lba ca asVisitedNode transform inputState node : MachineState =
-    match (asVisitedNode node) with
+    let visitedNodeType = asVisitedNode node
+    match visitedNodeType with
     | BreakingElement -> lba
     | HeadingElement -> lba
     | NewLineTextNode -> lba

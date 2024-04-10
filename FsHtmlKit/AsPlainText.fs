@@ -8,7 +8,8 @@ open BufferManipulation
 module N = NodeTypes
 
 let elementsAndTextOnly (asNodeType: 'n -> N.HtmlNode<'a>) (node: 'n) =
-    match (asNodeType node) with
+    let nodeType = asNodeType node
+    match nodeType with
     | Comment _ -> false
     | CData _ -> false
     | ScriptElement -> false
@@ -17,7 +18,8 @@ let elementsAndTextOnly (asNodeType: 'n -> N.HtmlNode<'a>) (node: 'n) =
     | Element _ -> true
 
 let asPlainText asNodeType attrName attrValue node =
-    match (asNodeType node) with
+    let nodeType = asNodeType node
+    match nodeType with
     | Text text -> text
     | Comment text -> text
     | CData text -> text
