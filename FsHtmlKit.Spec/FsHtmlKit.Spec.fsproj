@@ -35,5 +35,7 @@
     <ItemGroup>
         <Content Include="examples\01.html" CopyToOutputDirectory="Always"/>
         <Content Include="examples\02.html" CopyToOutputDirectory="Always"/>
+        <Content Include="examples\03.html" CopyToOutputDirectory="Always"/>
+        <Content Include="examples\26822503.html" CopyToOutputDirectory="Always"/>
     </ItemGroup>
 </Project>

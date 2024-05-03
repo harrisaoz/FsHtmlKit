@@ -24,3 +24,23 @@ let ``E2.Complete HTML document with DOCTYPE declaration: minimal content`` () =
     let actual: string option = FsHtmlKit.Html2PlainText.Std.tryExtractPlainText exampleText
 
     actual = expected |> Prop.label (actual |> Option.defaultValue "Extraction failed")
+
+[<Property>]
+let ``E3.Invalid HTML document with orphan meta element: no content`` () =
+    let exampleText = System.IO.File.ReadAllText("examples/03.html")
+
+    let expected: string option = None
+
+    let actual: string option = FsHtmlKit.Html2PlainText.Std.tryExtractPlainText exampleText
+
+    actual = expected |> Prop.label (actual |> Option.defaultValue "Extraction failed")
+
+[<Property>]
+let ``E4.Invalid HTML document with orphan meta element: no content`` () =
+    let exampleText = System.IO.File.ReadAllText("examples/26822503.html")
+
+    let expected: string option = None
+
+    let actual: string option = FsHtmlKit.Html2PlainText.Std.tryExtractPlainText exampleText
+
+    actual = expected |> Prop.label (actual |> Option.defaultValue "Extraction failed")
